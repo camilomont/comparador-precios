@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import ProductForm from './components/ProductForm';
+import ProductComparison from './features/products/components/ProductComparison';
+import type { Product } from './types/Product';
 
-function App() {
-  const [count, setCount] = useState(0)
+
+export default function App() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const addProduct = (product: Product) => {
+    setProducts((prev) => [...prev, product]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white p-6">
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-blue-700 mb-2 animate-fade-in">
+          🛒 Comparador de Precios Inteligente
+        </h1>
+        <p className="text-gray-600 text-lg">
+          Encuentra el mejor precio para tu producto favorito entre diferentes tiendas.
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      </header>
 
-export default App
+      <div className="max-w-3xl mx-auto space-y-8">
+        <ProductForm onAdd={addProduct} />
+        <ProductComparison products={products} />
+      </div>
+    </div>
+    
+  );
+}
