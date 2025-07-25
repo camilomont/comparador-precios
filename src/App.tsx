@@ -3,7 +3,6 @@ import ProductForm from './components/ProductForm';
 import ProductComparison from './features/products/components/ProductComparison';
 import type { Product } from './types/Product';
 
-
 export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -12,21 +11,25 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white p-6">
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-700 mb-2 animate-fade-in">
+    <div className="min-vh-100 bg-light py-5">
+      <header className="text-center mb-5">
+        <h1 className="display-4 fw-bold mb-2">
           🛒 Comparador de Precios Inteligente
         </h1>
-        <p className="text-gray-600 text-lg">
+        <p className="text-secondary fs-5">
           Encuentra el mejor precio para tu producto favorito entre diferentes tiendas.
         </p>
       </header>
-
-      <div className="max-w-3xl mx-auto space-y-8">
-        <ProductForm onAdd={addProduct} />
-        <ProductComparison products={products} />
-      </div>
-    </div>
+<div className="container">
+  <div className="mx-auto" style={{ maxWidth: '700px' }}>
+    <ProductForm onAdd={addProduct} products={products} />
     
+    <div className="mt-5">
+      <ProductComparison products={products} />
+    </div>
+  </div>
+</div>
+
+    </div>
   );
 }

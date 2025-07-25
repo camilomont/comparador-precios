@@ -5,17 +5,27 @@ import type { Product } from '../types/Product';
 
 interface Props {
   onAdd: (product: Product) => void;
+  products: Product[];
 }
 
-export default function ProductForm({ onAdd }: Props) {
+
+export default function ProductForm({ onAdd, products }: Props) {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [error, setError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!name || !category) {
       setError(true);
+      return;
+    }
+
+    const alreadyExists = products.some(p => p.name.trim().toLowerCase() === name.trim().toLowerCase());
+
+    if (alreadyExists) {
+      alert("⚠️ ¡Ups! Al parecer ya buscaste este producto.");
       return;
     }
 
@@ -33,12 +43,9 @@ export default function ProductForm({ onAdd }: Props) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-xl shadow-md space-y-4 animate-fade-in"
-    >
+    <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
       {error && (
-        <div className="bg-red-100 text-red-700 px-4 py-2 rounded flex items-center gap-2 animate-bounce">
+        <div className="alert alert-danger d-flex align-items-center" role="alert">
           ❌ Debes ingresar el nombre del producto y seleccionar una categoría.
         </div>
       )}
@@ -50,7 +57,7 @@ export default function ProductForm({ onAdd }: Props) {
           setName(e.target.value);
           if (error) setError(false);
         }}
-        className="w-full border border-gray-300 rounded px-3 py-2 outline-blue-500"
+        className="form-control mb-3"
       />
 
       <select
@@ -59,7 +66,7 @@ export default function ProductForm({ onAdd }: Props) {
           setCategory(e.target.value);
           if (error) setError(false);
         }}
-        className="w-full border border-gray-300 rounded px-3 py-2 outline-blue-500"
+        className="form-select mb-3"
       >
         <option value="">Selecciona una categoría</option>
         <option value="Tecnología">Tecnología</option>
@@ -72,10 +79,7 @@ export default function ProductForm({ onAdd }: Props) {
         <option value="Otros">Otros</option>
       </select>
 
-      <button
-        type="submit"
-        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-all"
-      >
+      <button type="submit" className="btn btn-custom w-100">
         Agregar Producto
       </button>
     </form>

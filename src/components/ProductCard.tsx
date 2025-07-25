@@ -18,21 +18,22 @@ export default function ProductCard({ product }: { product: Product }) {
   });
 
   return (
-    <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 animate-fade-in">
-      <h3 className="text-xl font-semibold text-blue-700">{product.name}</h3>
-      <p className="text-sm text-gray-500 mb-2">Categoría: {product.category}</p>
-      <ul className="space-y-1">
-        {entries.map(([store, price]) => (
-          <li key={store} className="flex justify-between items-center">
-            <span>
-              {storeIcons[store] || "🏷️"} {store}
-            </span>
-            <span className={price === lowest ? "font-bold text-green-600" : ""}>
-              {currencyFormat.format(price)} {price === lowest && "🔥"}
-            </span>
-          </li>
-        ))}
-      </ul>
+    <div className="card mb-4 shadow-sm border">
+      <div className="card-body">
+        <h3 className="card-title fw-bold">{product.name}</h3>
+        <p className="card-subtitle mb-2 text-muted">Categoría: {product.category}</p>
+        <ul className="list-group list-group-flush">
+          {entries.map(([store, price]) => (
+            <li key={store} className="list-group-item d-flex justify-content-between align-items-center">
+              <span>{storeIcons[store] || "🏷️"} {store}</span>
+              <span className={price === lowest ? "fw-bold text-success" : ""}>
+                {currencyFormat.format(price)} {price === lowest && "🔥"}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
+
   );
 }
